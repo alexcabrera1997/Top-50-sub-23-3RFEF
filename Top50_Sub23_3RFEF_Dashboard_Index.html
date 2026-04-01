@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 50 Sub-23 · 3ª RFEF · Jornada 28</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#f0f4f8;
+  --surface:#ffffff;
+  --surface2:#f7f9fc;
+  --border:#dde4ee;
+  --blue:#1a56db;
+  --blue2:#1e429f;
+  --blue-light:#e8f0fe;
+  --accent:#f97316;
+  --green:#10b981;
+  --red:#ef4444;
+  --text:#0f172a;
+  --muted:#64748b;
+  --muted2:#94a3b8;
+  --por:#a855f7;
+  --def:#1a56db;
+  --mc:#10b981;
+  --del:#f97316;
+  --ext:#ef4444;
+  --lat:#f59e0b;
+  --shadow:0 1px 3px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.05);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* HEADER */
+header{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;padding:0 2.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(26,86,219,.25);}
+.logo-wrap{display:flex;align-items:center;gap:.9rem;}
+.logo-icon{width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.logo-text h1{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;line-height:1;}
+.logo-text span{font-size:.6rem;opacity:.7;letter-spacing:1.5px;text-transform:uppercase;}
+.header-meta{display:flex;gap:.6rem;align-items:center;}
+.hbadge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:.22rem .75rem;font-size:.65rem;letter-spacing:.5px;}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,var(--blue2) 0%,var(--blue) 50%,#2563eb 100%);color:#fff;padding:3rem 2.5rem 2.5rem;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;right:-80px;top:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.07),transparent 70%);border-radius:50%;pointer-events:none;}
+.hero::before{content:'';position:absolute;bottom:-40px;left:30%;width:300px;height:300px;background:radial-gradient(circle,rgba(249,115,22,.12),transparent 70%);pointer-events:none;}
+.hero-inner{position:relative;z-index:1;max-width:1400px;margin:0 auto;}
+.hero h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,5vw,4rem);letter-spacing:4px;line-height:1;margin-bottom:.4rem;}
+.hero h2 span{color:rgba(255,255,255,.5);}
+.hero-sub{font-size:.8rem;opacity:.75;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.2rem;}
+
+/* HERO CTA */
+.hero-cta{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.8rem;padding:.9rem 1.2rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:12px;max-width:580px;}
+.cta-text{font-size:.85rem;color:rgba(255,255,255,.82);font-weight:500;}
+.cta-highlight{font-size:.9rem;color:#fff;font-weight:700;letter-spacing:.2px;}
+.hero-sub{font-size:.8rem;opacity:.75;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.2rem;}
+
+/* KPI BAR */
+.kpi-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+.kpi{background:var(--surface);padding:1.1rem 1rem;text-align:center;transition:background .2s;}
+.kpi:hover{background:var(--blue-light);}
+.kpi .num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--blue);line-height:1;}
+.kpi .lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:.2rem;}
+.kpi .sub{font-size:.68rem;color:var(--muted2);margin-top:.1rem;}
+
+/* MAIN */
+main{max-width:1400px;margin:0 auto;padding:2rem 2.5rem;}
+
+/* SECTION TITLE */
+.sec-title{display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;}
+.sec-title::before{content:'';width:4px;height:1.4rem;background:var(--blue);border-radius:2px;}
+.sec-title h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--text);}
+.sec-title .count{margin-left:auto;font-size:.68rem;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:.18rem .6rem;border-radius:20px;}
+
+/* CONTROLS */
+.controls{display:flex;gap:.7rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;box-shadow:var(--shadow);}
+.search-box,.filter-sel{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.5rem .9rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+.search-box{flex:1;min-width:180px;}
+.search-box:focus,.filter-sel:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,219,.1);}
+.search-box::placeholder{color:var(--muted2);}
+.filter-sel{cursor:pointer;}
+.controls-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;}
+.btn-reset{background:transparent;border:1px solid var(--border);border-radius:8px;padding:.5rem .9rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.78rem;cursor:pointer;transition:all .2s;}
+.btn-reset:hover{border-color:var(--blue);color:var(--blue);}
+
+/* POS TABS */
+.pos-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.pos-tab{padding:.45rem 1rem;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;border:2px solid transparent;background:var(--surface);color:var(--muted);transition:all .2s;box-shadow:var(--shadow);}
+.pos-tab:hover{color:var(--text);}
+.pos-tab.active{color:#fff;}
+.pos-tab[data-p="ALL"].active{background:var(--blue);border-color:var(--blue);}
+.pos-tab[data-p="DEL"].active{background:var(--del);border-color:var(--del);}
+.pos-tab[data-p="MC"].active{background:var(--mc);border-color:var(--mc);}
+.pos-tab[data-p="EXT"].active{background:var(--ext);border-color:var(--ext);}
+.pos-tab[data-p="DFC"].active{background:var(--def);border-color:var(--def);}
+.pos-tab[data-p="LAT"].active{background:var(--lat);border-color:var(--lat);}
+.pos-tab[data-p="POR"].active{background:var(--por);border-color:var(--por);}
+
+/* CHARTS GRID */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.2rem;box-shadow:var(--shadow);}
+.chart-card.wide{grid-column:span 2;}
+.chart-card.full{grid-column:span 3;}
+.chart-title{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem;}
+.chart-title::before{content:'';width:8px;height:8px;background:var(--blue);border-radius:50%;}
+.chart-wrap{position:relative;height:200px;}
+.chart-wrap.tall{height:260px;}
+
+/* SCATTER */
+.scatter-controls{display:flex;gap:.8rem;margin-bottom:.8rem;flex-wrap:wrap;align-items:center;}
+.scatter-controls label{font-size:.72rem;color:var(--muted);}
+.scatter-controls select{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.3rem .7rem;color:var(--text);font-size:.75rem;outline:none;}
+#scatterTooltip{position:fixed;background:var(--surface);border:1px solid var(--blue);border-radius:10px;padding:.7rem 1rem;font-size:.75rem;pointer-events:none;z-index:9999;display:none;min-width:200px;line-height:1.8;box-shadow:var(--shadow-lg);}
+
+/* PODIUM */
+.podium-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.8rem;margin-bottom:1.5rem;}
+.player-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s;cursor:default;}
+.player-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--blue);}
+.card-stripe{position:absolute;top:0;left:0;right:0;height:4px;}
+.card-rank{position:absolute;top:.8rem;right:.9rem;font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:rgba(0,0,0,.04);line-height:1;}
+.card-rank.gold{color:rgba(245,200,66,.18);}
+.card-rank.silver{color:rgba(192,192,192,.22);}
+.card-rank.bronze{color:rgba(205,127,50,.18);}
+.card-name{font-size:.88rem;font-weight:700;margin-bottom:.15rem;line-height:1.2;}
+.card-club{font-size:.65rem;color:var(--muted);margin-bottom:.6rem;}
+.card-pos-badge{display:inline-block;font-size:.58rem;font-weight:700;padding:.1rem .4rem;border-radius:4px;margin-bottom:.6rem;color:#fff;}
+.card-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;}
+.metric{background:var(--bg);border-radius:7px;padding:.4rem .3rem;text-align:center;}
+.metric .val{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;line-height:1;color:var(--blue);}
+.metric .key{font-size:.5rem;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-top:.05rem;}
+.card-link{display:block;margin-top:.8rem;text-align:center;font-size:.68rem;color:var(--blue);text-decoration:none;opacity:.7;transition:opacity .2s;}
+.card-link:hover{opacity:1;text-decoration:underline;}
+
+/* TABLE */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+.table-header{padding:.9rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2);}
+.table-header span{font-size:.68rem;color:var(--muted);}
+table{width:100%;border-collapse:collapse;font-size:.8rem;}
+thead th{background:var(--surface2);padding:.65rem .9rem;text-align:left;font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;cursor:pointer;user-select:none;white-space:nowrap;transition:color .2s;border-bottom:1px solid var(--border);}
+thead th:hover{color:var(--blue);}
+thead th.sort-asc::after{content:" ↑";color:var(--blue);}
+thead th.sort-desc::after{content:" ↓";color:var(--blue);}
+tbody tr{border-bottom:1px solid rgba(0,0,0,.04);transition:background .15s;}
+tbody tr:hover{background:var(--blue-light);}
+td{padding:.6rem .9rem;white-space:nowrap;}
+.td-rank{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--muted2);width:2rem;}
+.td-rank.gold{color:#d97706;font-weight:700;}
+.td-rank.silver{color:#64748b;font-weight:700;}
+.td-rank.bronze{color:#92400e;font-weight:700;}
+.td-name{font-weight:600;font-size:.84rem;}
+.td-club{font-size:.7rem;color:var(--muted);}
+.td-pos{display:inline-block;font-size:.58rem;font-weight:700;padding:.1rem .4rem;border-radius:4px;color:#fff;}
+.bar-cell{display:flex;align-items:center;gap:.5rem;}
+.bar{height:4px;border-radius:2px;min-width:2px;transition:width .3s;}
+.td-link a{color:var(--blue);font-size:.7rem;text-decoration:none;opacity:.7;transition:opacity .2s;}
+.td-link a:hover{opacity:1;text-decoration:underline;}
+.td-num{font-family:'DM Mono',monospace;font-size:.82rem;}
+.pag{display:flex;gap:.4rem;align-items:center;padding:.8rem 1.2rem;border-top:1px solid var(--border);background:var(--surface2);}
+.pag-btn{padding:.3rem .7rem;border-radius:6px;border:1px solid var(--border);background:var(--surface);font-size:.72rem;cursor:pointer;color:var(--muted);transition:all .2s;}
+.pag-btn:hover,.pag-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+.pag-info{font-size:.7rem;color:var(--muted);margin-left:auto;}
+
+/* INSIGHTS */
+.insights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.insight-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.3rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.4rem;}
+.insight-card .i-title{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.insight-card .i-val{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--blue);}
+.insight-card .i-desc{font-size:.75rem;color:var(--muted);line-height:1.5;}
+.insight-card .i-name{font-weight:700;color:var(--text);}
+
+/* FOOTER */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:1.5rem 2.5rem;text-align:center;font-size:.68rem;color:var(--muted2);margin-top:2rem;}
+footer strong{color:var(--blue);}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.6rem;}
+.leg-item{display:flex;align-items:center;gap:.35rem;font-size:.68rem;color:var(--muted);}
+.leg-dot{width:10px;height:10px;border-radius:50%;}
+
+/* RESPONSIVE */
+@media(max-width:900px){.charts-grid{grid-template-columns:1fr 1fr;}.chart-card.wide{grid-column:span 1;}.chart-card.full{grid-column:span 2;}main{padding:1.2rem 1rem;}}
+@media(max-width:600px){.charts-grid{grid-template-columns:1fr;}.chart-card.wide,.chart-card.full{grid-column:span 1;}header{padding:0 1rem;}.hero{padding:2rem 1rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <div class="logo-text">
+      <h1>TOP 50 SUB-23 · 3ª RFEF</h1>
+      <span>Análisis de rendimiento · Jornada 28 · Temporada 2025-26</span>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span class="hbadge">Sub-23</span>
+    <span class="hbadge">Jornada 28 · 2025-26</span>
+    <span class="hbadge">Top 50</span>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h2>TOP 50 <span>SUB-23</span><br>3ª RFEF</h2>
+    <p class="hero-sub">Análisis de rendimiento · Jornada 28 · Temporada 2025-26</p>
+    <div class="hero-cta">
+      <span class="cta-text">¿Quieres un dashboard así para tu club, academia o agencia?</span>
+      <span class="cta-highlight">Esto lo genero para ti con IA — en horas, no en semanas. 🚀</span>
+    </div>
+    <div class="kpi-bar" id="kpiBar"></div>
+  </div>
+</div>
+
+<main>
+
+  <!-- CONTROLES -->
+  <div class="controls">
+    <span class="controls-label">Filtrar:</span>
+    <input class="search-box" id="searchInput" placeholder="🔍  Buscar jugador o equipo…">
+    <select class="filter-sel" id="edadFilter">
+      <option value="ALL">Todas las edades</option>
+      <option value="19">19 años</option>
+      <option value="20">20 años</option>
+      <option value="21">21 años</option>
+      <option value="22">22 años</option>
+      <option value="23">23 años</option>
+    </select>
+    <select class="filter-sel" id="grupoFilter">
+      <option value="ALL">Todos los grupos</option>
+    </select>
+    <select class="filter-sel" id="sortMetric">
+      <option value="Goles">Ordenar: Goles</option>
+      <option value="Asistencias">Ordenar: Asistencias</option>
+      <option value="G_90">Ordenar: Goles/90</option>
+      <option value="Participaciones">Ordenar: Participaciones gol</option>
+      <option value="Minutos">Ordenar: Minutos</option>
+      <option value="Partidos">Ordenar: Partidos</option>
+    </select>
+    <button class="btn-reset" id="btnReset">✕ Limpiar</button>
+  </div>
+
+  <!-- TABS POSICIÓN -->
+  <div class="pos-tabs" id="posTabs">
+    <div class="pos-tab active" data-p="ALL">Todos</div>
+    <div class="pos-tab" data-p="DEL">⚽ Delantero</div>
+    <div class="pos-tab" data-p="MC">🎯 Centrocampista</div>
+    <div class="pos-tab" data-p="EXT">⚡ Extremo</div>
+    <div class="pos-tab" data-p="DFC">🛡️ Defensa Central</div>
+    <div class="pos-tab" data-p="LAT">↔️ Lateral</div>
+    <div class="pos-tab" data-p="POR">🧤 Portero</div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div class="sec-title"><h3>Insights Clave</h3></div>
+  <div class="insights-grid" id="insightsGrid"></div>
+
+  <!-- GRÁFICOS -->
+  <div class="sec-title"><h3>Análisis Visual</h3></div>
+  <div class="charts-grid">
+    <div class="chart-card wide">
+      <div class="chart-title">Top 10 Goleadores</div>
+      <div class="chart-wrap"><canvas id="chartGoles"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Distribución por Posición</div>
+      <div class="chart-wrap"><canvas id="chartPos"></canvas></div>
+    </div>
+    <div class="chart-card wide">
+      <div class="chart-title">Top 10 Asistentes</div>
+      <div class="chart-wrap"><canvas id="chartAsist"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Distribución de Edades</div>
+      <div class="chart-wrap"><canvas id="chartEdad"></canvas></div>
+    </div>
+    <div class="chart-card full">
+      <div class="chart-title">Scatter: Minutos vs Goles (tamaño = Asistencias)</div>
+      <div class="scatter-controls">
+        <label>Eje X: <select id="scX"><option value="Minutos">Minutos</option><option value="Partidos">Partidos</option><option value="Goles">Goles</option><option value="G_90">Goles/90</option></select></label>
+        <label>Eje Y: <select id="scY"><option value="Goles">Goles</option><option value="Asistencias">Asistencias</option><option value="Participaciones">Participaciones</option><option value="G_90">Goles/90</option><option value="Minutos">Minutos</option></select></label>
+      </div>
+      <canvas id="scatterCanvas" style="width:100%;height:300px;"></canvas>
+      <div class="legend" id="scatterLeg"></div>
+    </div>
+    <div class="chart-card full">
+      <div class="chart-title">Participaciones en Gol por Jugador (Top 15)</div>
+      <div class="chart-wrap tall"><canvas id="chartPartic"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TOP CARDS -->
+  <div class="sec-title"><h3>Top Jugadores</h3><span class="count" id="cardCount">—</span></div>
+  <div class="podium-row" id="playerCards"></div>
+
+  <!-- TABLA -->
+  <div class="sec-title"><h3>Tabla Completa</h3></div>
+  <div class="table-wrap">
+    <div class="table-header">
+      <span id="tableInfo">—</span>
+      <span>Haz clic en columnas para ordenar</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table id="mainTable">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div class="pag" id="pagBar"></div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>Scout Analytics Dashboard</strong> · Top 50 Sub-23 · 3ª RFEF · Jornada 28 · Temporada 2025-26<br>
+  <span style="margin-top:.3rem;display:block;">Datos: BeSoccer / Transfermarkt · Generado con IA · Demo de agencia</span>
+</footer>
+
+<div id="scatterTooltip"></div>
+
+<script>
+// ---- DATA ----
+const RAW = [
+  {Jugador:"Alejandro Meca",Equipo:"CD Cieza",Grupo:13,Posición:"DEL",Edad:21,Partidos:28,Titular:26,Suplente:2,Minutos:2240,Goles:17,Asistencias:4,Amarillas:3,Rojas:0,Link:"https://www.besoccer.com/jugador/a-meca"},
+  {Jugador:"Y. Ouakkati",Equipo:"At. Malagueño",Grupo:9,Posición:"DEL",Edad:22,Partidos:27,Titular:25,Suplente:2,Minutos:2180,Goles:26,Asistencias:3,Amarillas:5,Rojas:1,Link:"https://www.besoccer.com/jugador/y-ouakkati"},
+  {Jugador:"Jakes Gorosabel",Equipo:"Real Sociedad C",Grupo:4,Posición:"DEL",Edad:20,Partidos:26,Titular:22,Suplente:4,Minutos:1980,Goles:8,Asistencias:5,Amarillas:2,Rojas:0,Link:"https://www.transfermarkt.es/jakes-gorosabel/profil/spieler/102345"},
+  {Jugador:"David Gomez",Equipo:"CD Roda",Grupo:6,Posición:"MC",Edad:20,Partidos:28,Titular:28,Suplente:0,Minutos:2450,Goles:4,Asistencias:9,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/d-gomez-m"},
+  {Jugador:"Nizar El Jmili",Equipo:"CD Roda",Grupo:6,Posición:"EXT",Edad:21,Partidos:27,Titular:24,Suplente:3,Minutos:2100,Goles:10,Asistencias:6,Amarillas:2,Rojas:0,Link:"https://www.besoccer.com/jugador/n-el-jmili"},
+  {Jugador:"Suleiman El Haddadi",Equipo:"Leganes B",Grupo:7,Posición:"DEL",Edad:22,Partidos:25,Titular:21,Suplente:4,Minutos:1850,Goles:10,Asistencias:4,Amarillas:1,Rojas:0,Link:"https://www.besoccer.com/jugador/suleiman"},
+  {Jugador:"Borja De la Fuente",Equipo:"CF La Nucia",Grupo:6,Posición:"MC",Edad:21,Partidos:26,Titular:19,Suplente:7,Minutos:1750,Goles:3,Asistencias:5,Amarillas:6,Rojas:0,Link:"https://www.besoccer.com/jugador/b-fuente"},
+  {Jugador:"Carles Peris",Equipo:"CF La Nucia",Grupo:6,Posición:"DFC",Edad:20,Partidos:25,Titular:23,Suplente:2,Minutos:2050,Goles:1,Asistencias:2,Amarillas:5,Rojas:1,Link:"https://www.besoccer.com/jugador/c-peris"},
+  {Jugador:"Luis Sancho",Equipo:"UD Castellonense",Grupo:6,Posición:"LAT",Edad:22,Partidos:28,Titular:27,Suplente:1,Minutos:2380,Goles:2,Asistencias:7,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/l-sancho"},
+  {Jugador:"Ibai Cabo",Equipo:"Real Sociedad C",Grupo:4,Posición:"MC",Edad:21,Partidos:25,Titular:20,Suplente:5,Minutos:1820,Goles:4,Asistencias:4,Amarillas:3,Rojas:0,Link:"https://www.besoccer.com/jugador/i-cabo"},
+  {Jugador:"Dani Sanchez",Equipo:"UD Ourense",Grupo:1,Posición:"DFC",Edad:21,Partidos:24,Titular:24,Suplente:0,Minutos:2160,Goles:2,Asistencias:1,Amarillas:7,Rojas:0,Link:"https://www.besoccer.com/jugador/d-sanchez"},
+  {Jugador:"Noel Chaves",Equipo:"UD Ourense",Grupo:1,Posición:"LAT",Edad:20,Partidos:22,Titular:18,Suplente:4,Minutos:1650,Goles:0,Asistencias:4,Amarillas:3,Rojas:0,Link:"https://www.besoccer.com/jugador/n-chaves"},
+  {Jugador:"Sergio Prieto",Equipo:"Alondras CF",Grupo:1,Posición:"DFC",Edad:20,Partidos:26,Titular:25,Suplente:1,Minutos:2210,Goles:1,Asistencias:0,Amarillas:4,Rojas:1,Link:"https://www.besoccer.com/jugador/s-prieto"},
+  {Jugador:"David Conde",Equipo:"Gran Pena",Grupo:1,Posición:"POR",Edad:21,Partidos:28,Titular:28,Suplente:0,Minutos:2520,Goles:0,Asistencias:0,Amarillas:1,Rojas:0,Link:"https://www.besoccer.com/jugador/d-conde"},
+  {Jugador:"Popi",Equipo:"AD Torrejon",Grupo:7,Posición:"POR",Edad:20,Partidos:24,Titular:24,Suplente:0,Minutos:2160,Goles:0,Asistencias:0,Amarillas:2,Rojas:0,Link:"https://www.besoccer.com/jugador/popi"},
+  {Jugador:"Daniel Nieto",Equipo:"CD Mostoles",Grupo:7,Posición:"DFC",Edad:21,Partidos:27,Titular:27,Suplente:0,Minutos:2430,Goles:3,Asistencias:1,Amarillas:5,Rojas:0,Link:"https://www.besoccer.com/jugador/d-nieto"},
+  {Jugador:"Jesus Arribas",Equipo:"Rayo Vallecano B",Grupo:7,Posición:"MC",Edad:22,Partidos:26,Titular:23,Suplente:3,Minutos:2080,Goles:5,Asistencias:6,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/j-arribas"},
+  {Jugador:"Mohamed Bah",Equipo:"Trival Valderas",Grupo:7,Posición:"DEL",Edad:21,Partidos:25,Titular:18,Suplente:7,Minutos:1620,Goles:7,Asistencias:2,Amarillas:2,Rojas:0,Link:"https://www.besoccer.com/jugador/m-bah"},
+  {Jugador:"Pablo Sanchez",Equipo:"CD Galapagar",Grupo:7,Posición:"DEL",Edad:23,Partidos:28,Titular:22,Suplente:6,Minutos:1950,Goles:9,Asistencias:3,Amarillas:1,Rojas:0,Link:"https://www.besoccer.com/jugador/p-sanchez"},
+  {Jugador:"S. Rodriguez",Equipo:"Alcala",Grupo:7,Posición:"DEL",Edad:21,Partidos:24,Titular:15,Suplente:9,Minutos:1420,Goles:6,Asistencias:2,Amarillas:3,Rojas:0,Link:"https://www.besoccer.com/jugador/s-rodriguez"},
+  {Jugador:"Alvaro Ramirez",Equipo:"Sanse B",Grupo:7,Posición:"DEL",Edad:20,Partidos:23,Titular:19,Suplente:4,Minutos:1700,Goles:6,Asistencias:3,Amarillas:2,Rojas:0,Link:"https://www.besoccer.com/jugador/a-ramirez"},
+  {Jugador:"Marcos Reguilon",Equipo:"CF Pozuelo",Grupo:7,Posición:"DEL",Edad:22,Partidos:27,Titular:24,Suplente:3,Minutos:2150,Goles:8,Asistencias:4,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/m-reguilon"},
+  {Jugador:"Pol Pla",Equipo:"CE L'Hospitalet",Grupo:5,Posición:"MC",Edad:21,Partidos:26,Titular:25,Suplente:1,Minutos:2200,Goles:3,Asistencias:5,Amarillas:5,Rojas:0,Link:"https://www.besoccer.com/jugador/p-pla"},
+  {Jugador:"Marc Ros",Equipo:"Reus FCR",Grupo:5,Posición:"DFC",Edad:22,Partidos:25,Titular:25,Suplente:0,Minutos:2250,Goles:2,Asistencias:1,Amarillas:6,Rojas:0,Link:"https://www.besoccer.com/jugador/m-ros"},
+  {Jugador:"K. Atta",Equipo:"CF Peralada",Grupo:5,Posición:"EXT",Edad:20,Partidos:24,Titular:19,Suplente:5,Minutos:1720,Goles:5,Asistencias:7,Amarillas:2,Rojas:0,Link:"https://www.besoccer.com/jugador/k-atta"},
+  {Jugador:"J. Navarrete",Equipo:"Azuqueca",Grupo:18,Posición:"MC",Edad:21,Partidos:25,Titular:24,Suplente:1,Minutos:2120,Goles:4,Asistencias:5,Amarillas:8,Rojas:3,Link:"https://www.besoccer.com/jugador/j-navarrete"},
+  {Jugador:"David Baragano",Equipo:"Praviano",Grupo:2,Posición:"DFC",Edad:22,Partidos:27,Titular:27,Suplente:0,Minutos:2430,Goles:2,Asistencias:1,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/d-baragano"},
+  {Jugador:"Cris Acerete",Equipo:"CD Calahorra B",Grupo:16,Posición:"DEL",Edad:21,Partidos:26,Titular:24,Suplente:2,Minutos:2100,Goles:12,Asistencias:3,Amarillas:3,Rojas:0,Link:"https://www.besoccer.com/jugador/c-acerete"},
+  {Jugador:"Hodei Garita",Equipo:"Real Sociedad C",Grupo:4,Posición:"MC",Edad:21,Partidos:24,Titular:18,Suplente:6,Minutos:1650,Goles:3,Asistencias:4,Amarillas:2,Rojas:0,Link:"https://www.besoccer.com/jugador/h-garita"},
+  {Jugador:"Raul Guerrero",Equipo:"Llerenense",Grupo:14,Posición:"DEL",Edad:22,Partidos:25,Titular:21,Suplente:4,Minutos:1890,Goles:11,Asistencias:2,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/r-guerrero"},
+  {Jugador:"Pau Bouzada",Equipo:"CD Estradense",Grupo:1,Posición:"DEL",Edad:19,Partidos:23,Titular:14,Suplente:9,Minutos:1350,Goles:5,Asistencias:3,Amarillas:2,Rojas:0,Link:"https://www.besoccer.com/jugador/p-bouzada"},
+  {Jugador:"I. Ubeda",Equipo:"Viveiro CF",Grupo:1,Posición:"DFC",Edad:20,Partidos:24,Titular:23,Suplente:1,Minutos:2040,Goles:1,Asistencias:1,Amarillas:5,Rojas:0,Link:"https://www.besoccer.com/jugador/i-ubeda"},
+  {Jugador:"Samuel Rosario",Equipo:"Sanse B",Grupo:7,Posición:"EXT",Edad:20,Partidos:22,Titular:15,Suplente:7,Minutos:1400,Goles:4,Asistencias:5,Amarillas:1,Rojas:0,Link:"https://www.besoccer.com/jugador/s-rosario"},
+  {Jugador:"Aitor Amarildo",Equipo:"Mexico FC",Grupo:7,Posición:"DEL",Edad:22,Partidos:26,Titular:24,Suplente:2,Minutos:2130,Goles:7,Asistencias:2,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/a-amarildo"},
+  {Jugador:"Miguel Sacristan",Equipo:"Trival Valderas",Grupo:7,Posición:"MC",Edad:22,Partidos:27,Titular:26,Suplente:1,Minutos:2300,Goles:6,Asistencias:4,Amarillas:6,Rojas:0,Link:"https://www.besoccer.com/jugador/m-sacristan"},
+  {Jugador:"Alberto Galicia",Equipo:"Sanse B",Grupo:7,Posición:"MC",Edad:21,Partidos:25,Titular:22,Suplente:3,Minutos:1920,Goles:3,Asistencias:6,Amarillas:3,Rojas:0,Link:"https://www.besoccer.com/jugador/a-galicia"},
+  {Jugador:"Marcio Silva",Equipo:"Sanse B",Grupo:7,Posición:"DFC",Edad:21,Partidos:24,Titular:24,Suplente:0,Minutos:2160,Goles:1,Asistencias:0,Amarillas:5,Rojas:1,Link:"https://www.besoccer.com/jugador/m-silva"},
+  {Jugador:"Diego Martinez",Equipo:"Villaverde",Grupo:7,Posición:"MC",Edad:21,Partidos:26,Titular:21,Suplente:5,Minutos:1880,Goles:3,Asistencias:5,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/d-martinez"},
+  {Jugador:"Juande",Equipo:"Real Murcia Imp.",Grupo:13,Posición:"DFC",Edad:22,Partidos:27,Titular:27,Suplente:0,Minutos:2430,Goles:2,Asistencias:0,Amarillas:6,Rojas:0,Link:"https://www.besoccer.com/jugador/juande"},
+  {Jugador:"Ferni",Equipo:"UCAM Murcia B",Grupo:13,Posición:"EXT",Edad:21,Partidos:25,Titular:20,Suplente:5,Minutos:1750,Goles:6,Asistencias:8,Amarillas:2,Rojas:0,Link:"https://www.besoccer.com/jugador/ferni"},
+  {Jugador:"N. Alandes",Equipo:"At. Saguntino",Grupo:6,Posición:"MC",Edad:21,Partidos:26,Titular:22,Suplente:4,Minutos:1950,Goles:4,Asistencias:6,Amarillas:5,Rojas:0,Link:"https://www.besoccer.com/jugador/n-alandes"},
+  {Jugador:"Javier Lucas",Equipo:"Cieza",Grupo:13,Posición:"MC",Edad:22,Partidos:28,Titular:28,Suplente:0,Minutos:2520,Goles:5,Asistencias:7,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/j-lucas"},
+  {Jugador:"Papi",Equipo:"Ol. Totana",Grupo:13,Posición:"DEL",Edad:22,Partidos:26,Titular:19,Suplente:7,Minutos:1780,Goles:10,Asistencias:2,Amarillas:3,Rojas:0,Link:"https://www.besoccer.com/jugador/papi"},
+  {Jugador:"Arturo",Equipo:"Cartagena B",Grupo:13,Posición:"EXT",Edad:20,Partidos:24,Titular:16,Suplente:8,Minutos:1500,Goles:5,Asistencias:5,Amarillas:1,Rojas:0,Link:"https://www.besoccer.com/jugador/arturo"},
+  {Jugador:"Carlos Badal",Equipo:"CD Castellon B",Grupo:6,Posición:"DFC",Edad:23,Partidos:27,Titular:27,Suplente:0,Minutos:2430,Goles:3,Asistencias:1,Amarillas:4,Rojas:0,Link:"https://www.besoccer.com/jugador/c-badal"},
+  {Jugador:"M. Canal",Equipo:"Jove Espanol",Grupo:6,Posición:"MC",Edad:21,Partidos:25,Titular:23,Suplente:2,Minutos:2020,Goles:4,Asistencias:5,Amarillas:6,Rojas:0,Link:"https://www.besoccer.com/jugador/m-canal"},
+  {Jugador:"Angel Chacon",Equipo:"Villarreal C",Grupo:6,Posición:"LAT",Edad:20,Partidos:26,Titular:25,Suplente:1,Minutos:2240,Goles:1,Asistencias:6,Amarillas:3,Rojas:0,Link:"https://www.besoccer.com/jugador/a-chacon"},
+  {Jugador:"M. Martin",Equipo:"Elche Ilicitano",Grupo:6,Posición:"MC",Edad:20,Partidos:24,Titular:22,Suplente:2,Minutos:1950,Goles:5,Asistencias:7,Amarillas:2,Rojas:0,Link:"https://www.besoccer.com/jugador/m-martin"},
+  {Jugador:"H. Abdelilah",Equipo:"AD Ceuta B",Grupo:10,Posición:"DEL",Edad:21,Partidos:25,Titular:17,Suplente:8,Minutos:1580,Goles:8,Asistencias:2,Amarillas:3,Rojas:0,Link:"https://www.besoccer.com/jugador/h-abdelilah"},
+  {Jugador:"Kosty",Equipo:"Salamanca CF UDS",Grupo:8,Posición:"DEL",Edad:22,Partidos:28,Titular:26,Suplente:2,Minutos:2300,Goles:14,Asistencias:3,Amarillas:5,Rojas:0,Link:"https://www.besoccer.com/jugador/kosty"},
+];
+
+// Derived metrics
+RAW.forEach(d=>{
+  d.G_90 = d.Minutos>0 ? +(d.Goles/(d.Minutos/90)).toFixed(2) : 0;
+  d.A_90 = d.Minutos>0 ? +(d.Asistencias/(d.Minutos/90)).toFixed(2) : 0;
+  d.Participaciones = d.Goles + d.Asistencias;
+  d.Pct_Titular = d.Partidos>0 ? Math.round(d.Titular/d.Partidos*100) : 0;
+});
+
+const POS_COLORS = {DEL:'#f97316',MC:'#10b981',EXT:'#ef4444',DFC:'#1a56db',LAT:'#f59e0b',POR:'#a855f7'};
+const POS_NAMES = {DEL:'Delantero',MC:'Centrocampista',EXT:'Extremo',DFC:'Def. Central',LAT:'Lateral',POR:'Portero'};
+
+// State
+let filterPos='ALL', filterEdad='ALL', filterGrupo='ALL', searchTerm='', sortCol='Goles', sortAsc=false;
+let tablePage=1; const PAGE_SIZE=15;
+let sortTableCol='Goles', sortTableAsc=false;
+let charts={};
+
+// Populate grupo filter
+const grupos=[...new Set(RAW.map(d=>d.Grupo))].sort((a,b)=>a-b);
+const grupoSel=document.getElementById('grupoFilter');
+grupos.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent='Grupo '+g;grupoSel.appendChild(o);});
+
+function getFiltered(){
+  return RAW.filter(d=>{
+    if(filterPos!=='ALL' && d.Posición!==filterPos) return false;
+    if(filterEdad!=='ALL' && d.Edad!==+filterEdad) return false;
+    if(filterGrupo!=='ALL' && d.Grupo!==+filterGrupo) return false;
+    if(searchTerm && !d.Jugador.toLowerCase().includes(searchTerm) && !d.Equipo.toLowerCase().includes(searchTerm)) return false;
+    return true;
+  });
+}
+
+function getSorted(data, col, asc){
+  return [...data].sort((a,b)=> asc ? a[col]-b[col] : b[col]-a[col]);
+}
+
+// KPI BAR
+function buildKPI(){
+  const d=RAW;
+  const totalGoles=d.reduce((s,p)=>s+p.Goles,0);
+  const totalAsist=d.reduce((s,p)=>s+p.Asistencias,0);
+  const avgMin=Math.round(d.reduce((s,p)=>s+p.Minutos,0)/d.length);
+  const topGoleador=d.slice().sort((a,b)=>b.Goles-a.Goles)[0];
+  const maxG90=d.slice().sort((a,b)=>b.G_90-a.G_90)[0];
+  const equipos=[...new Set(d.map(p=>p.Equipo))].length;
+  const kpis=[
+    {num:d.length,lbl:'Jugadores',sub:'Top 50 Sub-23'},
+    {num:totalGoles,lbl:'Goles Totales',sub:'En la muestra'},
+    {num:totalAsist,lbl:'Asistencias',sub:'En la muestra'},
+    {num:avgMin+'\'',lbl:'Media Minutos',sub:'Por jugador'},
+    {num:equipos,lbl:'Equipos',sub:'Representados'},
+    {num:topGoleador.Goles,lbl:'Máx. Goles',sub:topGoleador.Jugador},
+    {num:maxG90.G_90,lbl:'Mejor G/90',sub:maxG90.Jugador},
+  ];
+  document.getElementById('kpiBar').innerHTML=kpis.map(k=>`
+    <div class="kpi"><div class="num">${k.num}</div><div class="lbl">${k.lbl}</div><div class="sub">${k.sub}</div></div>
+  `).join('');
+}
+
+// INSIGHTS
+function buildInsights(){
+  const d=getFiltered();
+  if(!d.length){document.getElementById('insightsGrid').innerHTML='<p style="color:var(--muted);font-size:.82rem;">Sin datos para los filtros seleccionados.</p>';return;}
+  const sorted_g=getSorted(d,'Goles',false);
+  const sorted_a=getSorted(d,'Asistencias',false);
+  const sorted_g90=getSorted(d,'G_90',false);
+  const sorted_p=getSorted(d,'Participaciones',false);
+  const sorted_min=getSorted(d,'Minutos',false);
+  const avgAge=(d.reduce((s,p)=>s+p.Edad,0)/d.length).toFixed(1);
+  const totalRojas=d.reduce((s,p)=>s+p.Rojas,0);
+  const insights=[
+    {title:'Máximo Goleador',val:sorted_g[0].Goles+' ⚽',desc:`<span class="i-name">${sorted_g[0].Jugador}</span> (${sorted_g[0].Equipo}) lidera la tabla con ${sorted_g[0].Goles} goles en ${sorted_g[0].Partidos} partidos.`},
+    {title:'Mejor Asistente',val:sorted_a[0].Asistencias+' 🎯',desc:`<span class="i-name">${sorted_a[0].Jugador}</span> (${sorted_a[0].Equipo}) — ${sorted_a[0].Asistencias} asistencias en ${sorted_a[0].Partidos} partidos.`},
+    {title:'Mejor Goles/90 min',val:sorted_g90[0].G_90,desc:`<span class="i-name">${sorted_g90[0].Jugador}</span> marca un gol cada ${(90/sorted_g90[0].G_90).toFixed(0)} minutos de media.`},
+    {title:'Más Participaciones',val:sorted_p[0].Participaciones+' 🔥',desc:`<span class="i-name">${sorted_p[0].Jugador}</span> suma ${sorted_p[0].Goles}G + ${sorted_p[0].Asistencias}A = ${sorted_p[0].Participaciones} participaciones.`},
+    {title:'Más Minutos',val:sorted_min[0].Minutos+'\'',desc:`<span class="i-name">${sorted_min[0].Jugador}</span> (${sorted_min[0].Equipo}) ha disputado ${sorted_min[0].Minutos} minutos esta temporada.`},
+    {title:'Edad Media',val:avgAge+' años',desc:`La muestra actual de ${d.length} jugadores tiene una edad media de ${avgAge} años.`},
+    {title:'Tarjetas Rojas',val:totalRojas+' 🟥',desc:`Total de expulsiones en la muestra actual. ${d.filter(p=>p.Rojas>0).length} jugadores tienen al menos una roja.`},
+    {title:'Más Amarillas',val:getSorted(d,'Amarillas',false)[0].Amarillas+' 🟨',desc:`<span class="i-name">${getSorted(d,'Amarillas',false)[0].Jugador}</span> acumula más tarjetas amarillas con ${getSorted(d,'Amarillas',false)[0].Amarillas}.`},
+  ];
+  document.getElementById('insightsGrid').innerHTML=insights.map(i=>`
+    <div class="insight-card">
+      <div class="i-title">${i.title}</div>
+      <div class="i-val">${i.val}</div>
+      <div class="i-desc">${i.desc}</div>
+    </div>
+  `).join('');
+}
+
+// CHARTS
+function buildCharts(){
+  const d=getFiltered();
+  const top10g=getSorted(d,'Goles',false).slice(0,10);
+  const top10a=getSorted(d,'Asistencias',false).slice(0,10);
+  const top15p=getSorted(d,'Participaciones',false).slice(0,15);
+
+  // Destroy old
+  Object.values(charts).forEach(c=>c&&c.destroy&&c.destroy());
+  charts={};
+
+  const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
+    x:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}},
+    y:{ticks:{color:'#64748b',font:{size:10}},grid:{color:'rgba(0,0,0,.06)'}}
+  }};
+
+  // Goles bar
+  const ctx1=document.getElementById('chartGoles');
+  if(ctx1){charts.g=new Chart(ctx1,{type:'bar',data:{
+    labels:top10g.map(p=>p.Jugador.split(' ')[0]),
+    datasets:[{data:top10g.map(p=>p.Goles),backgroundColor:top10g.map(p=>POS_COLORS[p.Posición]+'cc'),borderColor:top10g.map(p=>POS_COLORS[p.Posición]),borderWidth:1,borderRadius:5}]
+  },options:{...opts,plugins:{...opts.plugins,tooltip:{callbacks:{label:function(ctx){const p=top10g[ctx.dataIndex];return ` ${p.Jugador} · ${p.Equipo} · ${p.Goles}G`;}}}}}});}
+
+  // Asistencias bar
+  const ctx2=document.getElementById('chartAsist');
+  if(ctx2){charts.a=new Chart(ctx2,{type:'bar',data:{
+    labels:top10a.map(p=>p.Jugador.split(' ')[0]),
+    datasets:[{data:top10a.map(p=>p.Asistencias),backgroundColor:top10a.map(p=>POS_COLORS[p.Posición]+'bb'),borderColor:top10a.map(p=>POS_COLORS[p.Posición]),borderWidth:1,borderRadius:5}]
+  },options:{...opts,plugins:{...opts.plugins,tooltip:{callbacks:{label:function(ctx){const p=top10a[ctx.dataIndex];return ` ${p.Jugador} · ${p.Equipo} · ${p.Asistencias}A`;}}}}}});}
+
+  // Pos doughnut
+  const posCounts={};
+  d.forEach(p=>{posCounts[p.Posición]=(posCounts[p.Posición]||0)+1;});
+  const posKeys=Object.keys(posCounts);
+  const ctx3=document.getElementById('chartPos');
+  if(ctx3){charts.pos=new Chart(ctx3,{type:'doughnut',data:{
+    labels:posKeys.map(p=>POS_NAMES[p]||p),
+    datasets:[{data:posKeys.map(k=>posCounts[k]),backgroundColor:posKeys.map(k=>POS_COLORS[k]+'dd'),borderColor:posKeys.map(k=>POS_COLORS[k]),borderWidth:2}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#0f172a',font:{size:11},padding:10}}}}});}
+
+  // Edad bar
+  const edadCounts={};
+  d.forEach(p=>{edadCounts[p.Edad]=(edadCounts[p.Edad]||0)+1;});
+  const edadKeys=Object.keys(edadCounts).sort();
+  const ctx4=document.getElementById('chartEdad');
+  if(ctx4){charts.edad=new Chart(ctx4,{type:'bar',data:{
+    labels:edadKeys.map(e=>e+' años'),
+    datasets:[{data:edadKeys.map(k=>edadCounts[k]),backgroundColor:'#1a56dbcc',borderColor:'#1a56db',borderWidth:1,borderRadius:5}]
+  },options:{...opts}});}
+
+  // Participaciones stacked bar
+  const ctx5=document.getElementById('chartPartic');
+  if(ctx5){charts.partic=new Chart(ctx5,{type:'bar',data:{
+    labels:top15p.map(p=>p.Jugador.split(' ')[0]),
+    datasets:[
+      {label:'Goles',data:top15p.map(p=>p.Goles),backgroundColor:'#f97316cc',borderRadius:{topLeft:0,topRight:0,bottomLeft:4,bottomRight:4}},
+      {label:'Asistencias',data:top15p.map(p=>p.Asistencias),backgroundColor:'#1a56dbcc',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0}}
+    ]
+  },options:{...opts,plugins:{legend:{display:true,labels:{color:'#0f172a',font:{size:11}}},tooltip:{callbacks:{footer:function(items){const p=top15p[items[0].dataIndex];return `Total: ${p.Participaciones} · ${p.Equipo}`;}}}}
+  ,scales:{...opts.scales,x:{...opts.scales.x,stacked:true},y:{...opts.scales.y,stacked:true}}}});}
+
+  buildScatter();
+}
+
+// SCATTER
+function buildScatter(){
+  const xKey=document.getElementById('scX').value;
+  const yKey=document.getElementById('scY').value;
+  const d=getFiltered();
+  const canvas=document.getElementById('scatterCanvas');
+  if(!canvas) return;
+  const W=canvas.parentElement.clientWidth||700, H=300;
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  const PAD={l:55,r:20,t:15,b:45};
+  const PW=W-PAD.l-PAD.r, PH=H-PAD.t-PAD.b;
+  const xs=d.map(p=>p[xKey]||0), ys=d.map(p=>p[yKey]||0);
+  let xmin=Math.min(...xs,0)*0.95, xmax=Math.max(...xs,1)*1.08;
+  let ymin=0, ymax=(Math.max(...ys,1)||1)*1.15;
+  if(xmin===xmax){xmin-=1;xmax+=1;}
+  const toX=v=>PAD.l+(v-xmin)/(xmax-xmin)*PW;
+  const toY=v=>PAD.t+PH-(v-ymin)/(ymax-ymin)*PH;
+  ctx.clearRect(0,0,W,H);
+  // Grid
+  ctx.strokeStyle='rgba(0,0,0,.07)'; ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const gy=PAD.t+PH*i/4;
+    ctx.beginPath();ctx.moveTo(PAD.l,gy);ctx.lineTo(W-PAD.r,gy);ctx.stroke();
+    ctx.fillStyle='#94a3b8';ctx.font='10px DM Sans';ctx.textAlign='right';
+    ctx.fillText(((ymax)*(1-i/4)).toFixed(yKey==='G_90'||yKey==='A_90'?2:0),PAD.l-5,gy+4);
+    const gx=PAD.l+PW*i/4;
+    ctx.beginPath();ctx.moveTo(gx,PAD.t);ctx.lineTo(gx,PAD.t+PH);ctx.stroke();
+    ctx.textAlign='center';
+    ctx.fillText(Math.round((xmax-xmin)*i/4+xmin),gx,PAD.t+PH+15);
+  }
+  ctx.fillStyle='#1a56db';ctx.font='bold 10px DM Sans';ctx.textAlign='center';
+  ctx.fillText(xKey,PAD.l+PW/2,H-4);
+  ctx.save();ctx.translate(12,PAD.t+PH/2);ctx.rotate(-Math.PI/2);ctx.fillText(yKey,0,0);ctx.restore();
+  canvas._hits=[];
+  d.forEach((p,i)=>{
+    const cx=toX(p[xKey]||0), cy=toY(p[yKey]||0);
+    const col=POS_COLORS[p.Posición]||'#1a56db';
+    const r=5+Math.min(p.Asistencias/2,5);
+    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+    ctx.fillStyle=col+'bb';ctx.fill();
+    ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
+    canvas._hits.push({cx,cy,r:r+4,p});
+  });
+  // Legend
+  const posInData={};
+  d.forEach(p=>{posInData[p.Posición]=POS_COLORS[p.Posición];});
+  document.getElementById('scatterLeg').innerHTML=Object.entries(posInData).map(([k,v])=>`
+    <div class="leg-item"><div class="leg-dot" style="background:${v}"></div>${POS_NAMES[k]||k}</div>
+  `).join('');
+  canvas.onmousemove=function(e){
+    const rect=canvas.getBoundingClientRect();
+    const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+    const tip=document.getElementById('scatterTooltip');
+    let found=null;
+    for(const h of canvas._hits){
+      if(Math.hypot(mx-h.cx,my-h.cy)<h.r){found=h;break;}
+    }
+    if(found){
+      const p=found.p;
+      tip.style.display='block';
+      tip.style.left=(e.clientX+14)+'px';
+      tip.style.top=(e.clientY-10)+'px';
+      tip.innerHTML=`<strong style="color:var(--blue)">${p.Jugador}</strong><br>${p.Equipo} · Grupo ${p.Grupo}<br><span style="color:var(--muted)">${POS_NAMES[p.Posición]||p.Posición} · ${p.Edad} años</span><br>${xKey}: <strong>${(p[xKey]||0).toFixed(xKey==='G_90'||xKey==='A_90'?2:0)}</strong><br>${yKey}: <strong>${(p[yKey]||0).toFixed(yKey==='G_90'||yKey==='A_90'?2:0)}</strong><br>PJ: ${p.Partidos} (${p.Titular}T/${p.Suplente}S)`;
+    } else {tip.style.display='none';}
+  };
+  canvas.onmouseleave=()=>{document.getElementById('scatterTooltip').style.display='none';};
+}
+
+// PLAYER CARDS
+function buildCards(){
+  const d=getFiltered();
+  const sorted=getSorted(d,sortCol,sortAsc);
+  const top=sorted.slice(0,12);
+  document.getElementById('cardCount').textContent=d.length+' jugadores';
+  document.getElementById('playerCards').innerHTML=top.map((p,i)=>{
+    const col=POS_COLORS[p.Posición]||'#1a56db';
+    const rankClass=i===0?'gold':i===1?'silver':i===2?'bronze':'';
+    return `
+    <div class="player-card">
+      <div class="card-stripe" style="background:${col}"></div>
+      <div class="card-rank ${rankClass}">${i+1}</div>
+      <div class="card-name">${p.Jugador}</div>
+      <div class="card-club">${p.Equipo} · Grupo ${p.Grupo}</div>
+      <span class="card-pos-badge" style="background:${col}">${POS_NAMES[p.Posición]||p.Posición}</span>
+      <div class="card-metrics">
+        <div class="metric"><div class="val" style="color:${col}">${p.Goles}</div><div class="key">Goles</div></div>
+        <div class="metric"><div class="val">${p.Asistencias}</div><div class="key">Asist.</div></div>
+        <div class="metric"><div class="val">${p.G_90}</div><div class="key">G/90</div></div>
+        <div class="metric"><div class="val">${p.Minutos}'</div><div class="key">Minutos</div></div>
+        <div class="metric"><div class="val">${p.Partidos}</div><div class="key">PJ</div></div>
+        <div class="metric"><div class="val">${p.Participaciones}</div><div class="key">Part.</div></div>
+      </div>
+      <a class="card-link" href="${p.Link}" target="_blank">Ver perfil →</a>
+    </div>`;
+  }).join('');
+}
+
+// TABLE
+const TABLE_COLS=[
+  {key:'#',label:'#',sortable:false},
+  {key:'Jugador',label:'Jugador',sortable:false},
+  {key:'Posición',label:'Pos',sortable:true},
+  {key:'Edad',label:'Edad',sortable:true},
+  {key:'Partidos',label:'PJ',sortable:true},
+  {key:'Titular',label:'Tit.',sortable:true},
+  {key:'Minutos',label:'Min.',sortable:true},
+  {key:'Goles',label:'Goles',sortable:true},
+  {key:'Asistencias',label:'Asist.',sortable:true},
+  {key:'G_90',label:'G/90',sortable:true},
+  {key:'Participaciones',label:'Part.',sortable:true},
+  {key:'Amarillas',label:'🟨',sortable:true},
+  {key:'Rojas',label:'🟥',sortable:true},
+  {key:'link',label:'Perfil',sortable:false},
+];
+
+function buildTable(){
+  const d=getFiltered();
+  const sorted=getSorted(d,sortTableCol,sortTableAsc);
+  const total=sorted.length;
+  const totalPages=Math.max(1,Math.ceil(total/PAGE_SIZE));
+  if(tablePage>totalPages) tablePage=1;
+  const page=sorted.slice((tablePage-1)*PAGE_SIZE, tablePage*PAGE_SIZE);
+  const maxG=Math.max(...d.map(p=>p.Goles),1);
+  const maxA=Math.max(...d.map(p=>p.Asistencias),1);
+
+  document.getElementById('tableInfo').textContent=`${total} jugadores · Pág. ${tablePage}/${totalPages}`;
+
+  document.getElementById('tableHead').innerHTML=`<tr>${TABLE_COLS.map(c=>{
+    let cls='';
+    if(c.sortable && c.key===sortTableCol) cls=sortTableAsc?'sort-asc':'sort-desc';
+    const click=c.sortable?`onclick="tSort('${c.key}')"`:'' ;
+    return `<th class="${cls}" ${click}>${c.label}</th>`;
+  }).join('')}</tr>`;
+
+  document.getElementById('tableBody').innerHTML=page.map((p,i)=>{
+    const globalRank=(tablePage-1)*PAGE_SIZE+i+1;
+    const rankClass=globalRank===1?'gold':globalRank===2?'silver':globalRank===3?'bronze':'';
+    const col=POS_COLORS[p.Posición]||'#1a56db';
+    return `<tr>
+      <td class="td-rank ${rankClass}">${globalRank}</td>
+      <td><div class="td-name">${p.Jugador}</div><div class="td-club">${p.Equipo} · G${p.Grupo}</div></td>
+      <td><span class="td-pos" style="background:${col}">${p.Posición}</span></td>
+      <td class="td-num">${p.Edad}</td>
+      <td class="td-num">${p.Partidos}</td>
+      <td class="td-num">${p.Titular}</td>
+      <td class="td-num">${p.Minutos}'</td>
+      <td><div class="bar-cell"><span class="td-num">${p.Goles}</span><div class="bar" style="width:${Math.round(p.Goles/maxG*70)}px;background:${col}"></div></div></td>
+      <td><div class="bar-cell"><span class="td-num">${p.Asistencias}</span><div class="bar" style="width:${Math.round(p.Asistencias/maxA*70)}px;background:#1a56db"></div></div></td>
+      <td class="td-num">${p.G_90}</td>
+      <td class="td-num" style="font-weight:700;color:var(--blue)">${p.Participaciones}</td>
+      <td class="td-num">${p.Amarillas}</td>
+      <td class="td-num">${p.Rojas>0?`<span style="color:var(--red);font-weight:700">${p.Rojas}</span>`:p.Rojas}</td>
+      <td class="td-link"><a href="${p.Link}" target="_blank">Ver →</a></td>
+    </tr>`;
+  }).join('');
+
+  // Pagination
+  const pagBar=document.getElementById('pagBar');
+  let pagHtml='';
+  for(let i=1;i<=totalPages;i++){
+    pagHtml+=`<button class="pag-btn${tablePage===i?' active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  pagHtml+=`<span class="pag-info">${total} jugadores en total</span>`;
+  pagBar.innerHTML=pagHtml;
+}
+
+function tSort(col){
+  if(sortTableCol===col) sortTableAsc=!sortTableAsc;
+  else{sortTableCol=col;sortTableAsc=false;}
+  tablePage=1;
+  buildTable();
+}
+function goPage(p){tablePage=p;buildTable();}
+
+function renderAll(){
+  buildInsights();
+  buildCharts();
+  buildCards();
+  buildTable();
+}
+
+// EVENT LISTENERS
+document.getElementById('searchInput').addEventListener('input',e=>{searchTerm=e.target.value.toLowerCase();tablePage=1;renderAll();});
+document.getElementById('edadFilter').addEventListener('change',e=>{filterEdad=e.target.value;tablePage=1;renderAll();});
+document.getElementById('grupoFilter').addEventListener('change',e=>{filterGrupo=e.target.value;tablePage=1;renderAll();});
+document.getElementById('sortMetric').addEventListener('change',e=>{sortCol=e.target.value;buildCards();});
+document.getElementById('btnReset').addEventListener('click',()=>{
+  filterPos='ALL';filterEdad='ALL';filterGrupo='ALL';searchTerm='';sortCol='Goles';sortAsc=false;
+  document.getElementById('searchInput').value='';
+  document.getElementById('edadFilter').value='ALL';
+  document.getElementById('grupoFilter').value='ALL';
+  document.getElementById('sortMetric').value='Goles';
+  document.querySelectorAll('.pos-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.pos-tab[data-p="ALL"]').classList.add('active');
+  tablePage=1;renderAll();
+});
+document.querySelectorAll('.pos-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.pos-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    filterPos=tab.dataset.p;
+    tablePage=1;renderAll();
+  });
+});
+document.getElementById('scX').addEventListener('change',buildScatter);
+document.getElementById('scY').addEventListener('change',buildScatter);
+
+// INIT
+buildKPI();
+renderAll();
+
+window.addEventListener('resize',()=>{ setTimeout(buildScatter,100); });
+</script>
+</body>
+</html>
